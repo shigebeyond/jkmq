@@ -1,40 +1,68 @@
-3. jksoa-mq: 消息队列的组件, 包含 mq-registry / mq-client / mq-broker 的3个子组件
+
+# 概述
+
+jkmq是封装了多个mq client, 简化mq的生产与消费, 目前仅支持 kafka / rabbitmq
+
+## 特性
+1. 简单, 易用, 轻量, 易扩展；
+2. 性能高, 如 kafka 消费者可执行固定的消费者线程, 可消费多个主题
+
+# 快速入门
+下面以 kafka demo 为例
+
+## 生产者 producer
+
+1. 生产者配置
+kafka-producer.yaml
+
+```
+default:
+    bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
+    acks: all # 回令类型
+    retries: 0 # 重试次数
+    batch.size: 16384 # 成批发送的消息大小, 单位byte
+    linger.ms: 100 # 定时发送的时间间隔, 单位ms
+```
 
 
-# jksoa-mq
+2. 生产者生产消息
 
-消息队列的组件
+```
+// 获得 kafka 的mq管理者实现
+val mqMgr = IMqManager.instance("kafka")
 
-## 入门
-1. [快速开始](doc/mq/getting_started.md)
+// 生产消息
+val topic = "topic1"
+val msg = randomString(10)
+val f = mqMgr.sendMq(topic, msg) // 异步发送消息, 返回 CompletableFuture 对象
+```
 
-### 消息主体
-2. [主题](doc/mq/message/topic.md)
-3. [消息](doc/mq/message/message.md)
+## 消费者 consumer
+1. 消费者配置
+kafka-consumer.yaml
 
-### 注册中心
-4. [注册中心](doc/mq/registry.md)
+```
+default:
+    bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
+    group.id: group1 # 消费者分组
+    enable.auto.commit: true # 开启自动提交，默认5s提交一次
+    auto.commit.interval.ms: 1000 # 自动提交时间间隔
+    session.timeout.ms: 30000 # 消费者与服务器断开连接的最大时间
+    max.poll.records: 1000 # 单次拉取的记录数
+    auto.offset.reset: earliest # 读取位置: earliest/latest
+    concurrency: 10 # 并行的消费者数`
+```
 
-### producer 生产者
-5. [生产者](doc/mq/producer.md)
+2. 消费者订阅主题+消费处理
 
-### consumer 消费者
-6. [消费者](doc/mq/consumer/consumer.md)
-7. [消息处理器](doc/mq/consumer/handler.md)
-8. [重复消费](doc/mq/consumer/duplication.md)
-9. [对broker的路由](doc/mq/consumer/route2broker.md)
+```
+// 获得 kafka 的mq管理者实现
+val mqMgr = IMqManager.instance("kafka")
 
-### broker 中转者
-10. [中转者](doc/mq/broker/broker.md)
-11. [存储](doc/mq/broker/storage.md)
-12. [延迟消息](doc/mq/broker/delay_message.md)
-13. [立即同步](doc/mq/broker/immediate_sync.md)
-
-### todo
-14. [单主题多队列](doc/mq/todo/topic-queues.md)
-
-## 高级
-15. [架构](doc/mq/architecture.md)
-16. [消息流转流程](doc/mq/mq-flow.md)
-17. [路由](doc/mq/route.md)
-18. [有序消息](doc/mq/ordered_message.md)
+// 订阅主题+消费处理
+val topic = "topic1"
+mqMgr.subscribeMq(topic){ msg -> // 消费处理的回调
+    val t = Thread.currentThread().name
+    println("$t recieve mq: topic1 - $msg")
+}
+```
