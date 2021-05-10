@@ -108,6 +108,13 @@ project(':') {
         // jkutil
         compile "net.jkcode.jkmvc:jkutil:$jkutil_version"
 
+        // rabbitmq
+        compile "com.rabbitmq:amqp-client:3.6.6"
+
+        // kafka
+        compile "org.apache.kafka:kafka_2.12:2.2.0"
+        compile "org.apache.kafka:kafka-clients:2.2.0"
+
         // test
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile 'junit:junit:4.11'

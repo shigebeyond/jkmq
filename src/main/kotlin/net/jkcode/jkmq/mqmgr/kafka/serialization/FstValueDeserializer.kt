@@ -17,4 +17,12 @@ class FstValueDeserializer : Deserializer<Any> {
     override fun deserialize(topic: String, data: ByteArray): Any? {
         return fst.unserialize(data)
     }
+
+    override fun configure(configs: MutableMap<String, *>?, isKey: Boolean) {
+        // do nth
+    }
+
+    override fun close() {
+        // do nth
+    }
 }

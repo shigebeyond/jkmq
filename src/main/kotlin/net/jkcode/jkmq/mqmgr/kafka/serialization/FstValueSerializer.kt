@@ -17,4 +17,12 @@ class FstValueSerializer : Serializer<Any> {
     override fun serialize(topic: String, data: Any): ByteArray? {
         return fst.serialize(data)
     }
+
+    override fun configure(configs: MutableMap<String, *>?, isKey: Boolean) {
+        // to nth
+    }
+
+    override fun close() {
+        // to nth
+    }
 }
