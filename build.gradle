@@ -1,3 +1,12 @@
+// 依赖
+def deps = [
+    // rabbitmq
+    "com.rabbitmq:amqp-client:3.6.6",
+    // kafka
+    "org.apache.kafka:kafka_2.12:2.2.0",
+    "org.apache.kafka:kafka-clients:2.2.0"
+]
+
 //公共库自己不要设置env变量, 由引用库来设置, 否则会覆盖evn变量
 // 引用库只需要依赖配置
 println ext.has('env')
@@ -5,6 +14,11 @@ if(ext.has('env') && ext.env == 'dev'){
     dependencies {
         // other project
         compile project(':jkutil')
+
+        // 其他依赖
+        deps.each { 
+            compile it
+        }
     }
 
     return
@@ -108,12 +122,10 @@ project(':') {
         // jkutil
         compile "net.jkcode:jkutil:$jkutil_version"
 
-        // rabbitmq
-        compile "com.rabbitmq:amqp-client:3.6.6"
-
-        // kafka
-        compile "org.apache.kafka:kafka_2.12:2.2.0"
-        compile "org.apache.kafka:kafka-clients:2.2.0"
+        // 其他依赖
+        deps.each {
+            compile it
+        }
 
         // test
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
