@@ -1,6 +1,5 @@
 
 # 概述
-
 jkmq是封装了多个mq client, 简化mq的生产与消费, 目前仅支持 kafka / rabbitmq
 
 ## 特性
@@ -10,11 +9,24 @@ jkmq是封装了多个mq client, 简化mq的生产与消费, 目前仅支持 kaf
 # 快速入门
 下面以 kafka demo 为例
 
-## 生产者 producer
+## 添加依赖
+1. gradle
+```
+compile "net.jkcode:jkmq:1.9.0"
+```
 
+2. maven
+```
+<dependency>
+    <groupId>net.jkcode</groupId>
+    <artifactId>jkmq</artifactId>
+    <version>1.9.0</version>
+</dependency>
+```
+
+## 生产者 producer
 1. 生产者配置
 kafka-producer.yaml
-
 ```
 default:
     bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
@@ -24,9 +36,7 @@ default:
     linger.ms: 100 # 定时发送的时间间隔, 单位ms
 ```
 
-
 2. 生产者生产消息
-
 ```
 // 获得 kafka 的mq管理者实现
 val mqMgr = IMqManager.instance("kafka")
@@ -40,7 +50,6 @@ val f = mqMgr.sendMq(topic, msg) // 异步发送消息, 返回 CompletableFuture
 ## 消费者 consumer
 1. 消费者配置
 kafka-consumer.yaml
-
 ```
 default:
     bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
@@ -54,7 +63,6 @@ default:
 ```
 
 2. 消费者订阅主题+消费处理
-
 ```
 // 获得 kafka 的mq管理者实现
 val mqMgr = IMqManager.instance("kafka")
