@@ -26,7 +26,7 @@ compile "net.jkcode:jkmq:1.9.0"
 
 ## 生产者 producer
 1. 生产者配置
-kafka-producer.yaml
+vim src/main/resources/kafka-producer.yaml
 ```
 default:
     bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
@@ -49,7 +49,7 @@ val f = mqMgr.sendMq(topic, msg) // 异步发送消息, 返回 CompletableFuture
 
 ## 消费者 consumer
 1. 消费者配置
-kafka-consumer.yaml
+vim src/main/resources/kafka-consumer.yaml
 ```
 default:
     bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
