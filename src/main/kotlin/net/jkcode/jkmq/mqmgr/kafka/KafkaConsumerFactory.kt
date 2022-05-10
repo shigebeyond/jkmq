@@ -5,6 +5,7 @@ import net.jkcode.jkutil.common.Config
 import net.jkcode.jkutil.common.commonLogger
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.StringDeserializer
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -44,6 +45,11 @@ object KafkaConsumerFactory {
      */
     private fun createKafkaConsumer(config: Config): KafkaConsumer<String, Any> {
         val props = config.props as MutableMap<String, Any?>
+        // 如果分组为空，则给个随机分组，用于广播
+        val group = props["group.id"] as String?
+        if(group.isNullOrEmpty())
+            props["group.id"] = "cg-" + UUID.randomUUID()
+        // 序列化
         props["key.deserializer"] = StringDeserializer::class.java.name
         props["value.deserializer"] = FstValueDeserializer::class.java.name
         // 创建消费者

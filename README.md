@@ -53,7 +53,7 @@ vim src/main/resources/kafka-consumer.yaml
 ```
 default:
     bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
-    group.id: group1 # 消费者分组
+    group.id: group1 # 消费者分组，如果为空则是用于广播的随机分组
     enable.auto.commit: true # 开启自动提交，默认5s提交一次
     auto.commit.interval.ms: 1000 # 自动提交时间间隔
     session.timeout.ms: 30000 # 消费者与服务器断开连接的最大时间
