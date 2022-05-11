@@ -19,7 +19,7 @@ class RabbitMqTests {
 
     val topic = "new_user"
 
-    val mqMgr = IMqManager.instance("rabbitmq")
+    val mqMgr = IMqManager.instance("rabbitmq", "default")
 
     @Test
     fun testAddMq(){

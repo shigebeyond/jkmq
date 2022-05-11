@@ -20,7 +20,7 @@ import java.util.function.Consumer
 
 class RedisMqTests {
 
-    public val mqMgr = IMqManager.instance("redis")
+    public val mqMgr = IMqManager.instance("redis", "default")
 
 
     @Test

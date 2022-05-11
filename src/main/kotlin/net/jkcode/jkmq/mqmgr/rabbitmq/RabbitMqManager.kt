@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture
  * @author shijianhang<772910474@qq.com>
  * @date 2019-08-24 6:16 PM
  */
-class RabbitMqManager : IMqManager {
+class RabbitMqManager(override val name: String) : IMqManager {
 
     val serializer: ISerializer = ISerializer.instance("fst")
 
@@ -26,7 +26,7 @@ class RabbitMqManager : IMqManager {
      */
     public override fun sendMq(topic: String, msg: Any, key: String?): CompletableFuture<Void> {
         // 获得ThreadLocal的信道
-        val channel = RabbitConnectionFactory.getChannel()
+        val channel = RabbitConnectionFactory.getChannel(name)
 
         // 声明队列
         channel.queueDeclare(topic, true /* 队列持久化 */, false, false, null)
@@ -43,7 +43,7 @@ class RabbitMqManager : IMqManager {
      */
     public override fun subscribeMq(topic: String, handler: (Any)->Unit){
         // 获得ThreadLocal的信道
-        val channel = RabbitConnectionFactory.getChannel()
+        val channel = RabbitConnectionFactory.getChannel(name)
 
         // 声明队列
         channel.queueDeclare(topic, true /* 队列持久化 */, false, false, null)

@@ -5,8 +5,6 @@ import net.jkcode.jkutil.common.Config
 import net.jkcode.jkutil.common.VoidFuture
 import net.jkcode.jkutil.redis.JedisFactory
 import net.jkcode.jkutil.serialize.ISerializer
-import org.apache.kafka.clients.producer.Callback
-import org.apache.kafka.clients.producer.ProducerRecord
 import redis.clients.jedis.BinaryJedisPubSub
 import redis.clients.jedis.Jedis
 import java.util.concurrent.CompletableFuture
@@ -16,12 +14,12 @@ import java.util.concurrent.CompletableFuture
  * @author shijianhang<772910474@qq.com>
  * @date 2022-05-10 6:16 PM
  */
-class RedisMqManager(protected val configName: String = "default") : IMqManager {
+class RedisMqManager(override val name: String = "default") : IMqManager {
 
     /**
      * redis配置
      */
-    public val config = Config.instance("redis.${configName}", "yaml")
+    public val config = Config.instance("redis.${name}", "yaml")
 
     /**
      * 序列器
@@ -33,7 +31,7 @@ class RedisMqManager(protected val configName: String = "default") : IMqManager 
      */
     protected val jedis: Jedis
         get() {
-            return JedisFactory.getConnection(configName)
+            return JedisFactory.getConnection(name)
         }
 
     /**

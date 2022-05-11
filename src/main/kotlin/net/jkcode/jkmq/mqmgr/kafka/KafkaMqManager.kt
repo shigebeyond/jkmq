@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
  * @author shijianhang<772910474@qq.com>
  * @date 2019-08-24 6:16 PM
  */
-class KafkaMqManager : IMqManager {
+class KafkaMqManager(override val name: String) : IMqManager {
 
     val autoFlush = true
 
@@ -25,7 +25,7 @@ class KafkaMqManager : IMqManager {
      */
     override fun sendMq(topic: String, msg: Any, key: String?): CompletableFuture<Void> {
         // 生产者
-        val producer = KafkaProducerFactory.getKafkaProducer()
+        val producer = KafkaProducerFactory.getKafkaProducer(name)
 
         // 消息
         val record = ProducerRecord<String, Any>(topic, key, msg)
@@ -52,7 +52,7 @@ class KafkaMqManager : IMqManager {
      * @param handler 消息处理函数
      */
     override fun subscribeMq(topic: String, handler: (Any) -> Unit) {
-        var consumer = KafkaConsumerFactory.getKafkaConsumerContainer()
+        var consumer = KafkaConsumerFactory.getKafkaConsumerContainer(name)
         // 订阅
         consumer.subscribe(listOf(topic))
         // 添加监听器

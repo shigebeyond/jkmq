@@ -20,7 +20,7 @@ import java.util.function.Consumer
 
 class KafkaTests2 {
 
-    public val mqMgr = IMqManager.instance("kafka")
+    public val mqMgr = IMqManager.instance("kafka", "default")
 
     /**
      * KafkaProducer多线程下线程安全
