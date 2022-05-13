@@ -9,10 +9,10 @@ default:
     concurrency: 10 # 并行的消费者数
 swarmDiscovery: # 用于docker swarm模式下的服务发现的广播
     bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
-    group.id:  # 消费者分组，如果为空则是用于广播的随机分组 -- 广播(服务发现的mq)
+    group.id:  # 消费者分组，如果为空则是用于广播的随机分组 -- 广播用在服务发现
     enable.auto.commit: true # 开启自动提交，默认5s提交一次
     auto.commit.interval.ms: 1000 # 自动提交时间间隔
     session.timeout.ms: 30000 # 消费者与服务器断开连接的最大时间
     max.poll.records: 1000 # 单次拉取的记录数
     auto.offset.reset: earliest # 读取位置: earliest/latest
-    concurrency: 10 # 并行的消费者数
+    concurrency: 1 # 并行的消费者数, 服务发现下并行数仅需1
