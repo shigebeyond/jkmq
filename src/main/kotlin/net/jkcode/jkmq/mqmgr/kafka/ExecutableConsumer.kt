@@ -99,7 +99,7 @@ class ExecutableConsumer<K, V>(
         // 标记运行中
         running = true
 
-        // 死循环拉消息: 先检查 running + 内部线程的队列是否为空, 然后才拉取
+        // 死循环拉消息: 先检查 running + 内部线程的队列是否为空(无其他任务，如subscribe), 然后才拉取
         while (running
                 && singleThread.pendingTasks() == 0) { // isEmpty() 是私有的, 但实现跟 pendingTasks() == 0 一样
             val records = delegate.poll(1000)
@@ -110,6 +110,9 @@ class ExecutableConsumer<K, V>(
                 listener?.invoke(record.value())
             }
         }
+
+        if(running)
+            running = false
     }
 
     /**
