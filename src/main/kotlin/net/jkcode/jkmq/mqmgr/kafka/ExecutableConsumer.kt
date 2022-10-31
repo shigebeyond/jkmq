@@ -53,20 +53,24 @@ class ExecutableConsumer<K, V>(
         // 关机时取消订阅+关闭
         ClosingOnShutdown.addClosing(object: Closeable {
             override fun close() {
+                if(!running)
+                    return
                 // 中断死循环: 下面2个效果是类似的
                 // 1 使得 poll() 抛出 WakeupException
                 //delegate.wakeup()
                 // 2 标记不运行
                 running = false
 
-                // 取消订阅
-                try {
-                    delegate.unsubscribe()
-                } catch (ex: WakeupException) {
-                }
+                singleThread.execute {
+                    // 取消订阅
+                    try {
+                        delegate.unsubscribe()
+                    } catch (ex: WakeupException) {
+                    }
 
-                // 关闭
-                delegate.close()
+                    // 关闭
+                    delegate.close()
+                }
             }
         })
 
