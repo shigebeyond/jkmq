@@ -7,7 +7,7 @@ default:
     max.poll.records: 1000 # 单次拉取的记录数
     auto.offset.reset: earliest # 读取位置: earliest/latest
     concurrency: 10 # 并行的消费者数
-swarmDiscovery: # 用于docker swarm模式下的服务发现的广播
+k8sDiscovery: # 用于k8s模式下的服务发现的广播
     bootstrap.servers: 192.168.0.170:9092 # kafka broker server, 多个用逗号分割
     group.id:  # 消费者分组，如果为空则是用于广播的随机分组 -- 广播用在服务发现
     enable.auto.commit: true # 开启自动提交，默认5s提交一次
