@@ -15,9 +15,13 @@ import java.util.function.Consumer
 class KafkaTests {
     
     companion object{
+        // 测试服
         const val MQ_ADDRESS_COLLECTION = "192.168.0.170:9092" //kafka地址
         const val CONSUMER_TOPIC = "topicDemo" //消费者连接的topic
-        const val PRODUCER_TOPIC = "topicDemo" //生产者连接的topic
+        // 自己机器
+//        const val MQ_ADDRESS_COLLECTION = "192.168.62.209:9092" //kafka地址
+//        const val CONSUMER_TOPIC = "my-topic" //消费者连接的topic
+        const val PRODUCER_TOPIC = CONSUMER_TOPIC //生产者连接的topic
         const val CONSUMER_GROUP_ID = "1" //groupId，可以分开配置
         const val CONSUMER_ENABLE_AUTO_COMMIT = "true" //是否自动提交（消费者）
         const val CONSUMER_AUTO_COMMIT_INTERVAL_MS = "1000"
