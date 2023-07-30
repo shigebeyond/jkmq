@@ -18,6 +18,12 @@ import java.util.*
 import java.time.Duration;
 import java.util.function.Consumer
 
+/**
+ * 使用我封装的kafka client来测试收发mq
+ * 自己创建主题：
+ *      kafka-topics.sh --zookeeper 10.105.135.75:2181 --create --topic topic1 --partitions 1 --replication-factor 1
+ *      kafka-topics.sh --zookeeper 10.105.135.75:2181 --create --topic topic2 --partitions 1 --replication-factor 1
+ */
 class KafkaTests2 {
 
     public val mqMgr = IMqManager.instance("kafka", "default")

@@ -12,15 +12,18 @@ import java.util.*
 import java.time.Duration;
 import java.util.function.Consumer
 
+/**
+ * 使用kafka原生client来测试收发mq
+ * 自己创建主题： kafka-topics.sh --zookeeper 10.105.135.75:2181 --create --topic my-topic --partitions 1 --replication-factor 1
+ */
 class KafkaTests {
     
     companion object{
         // 测试服
-        const val MQ_ADDRESS_COLLECTION = "192.168.0.170:9092" //kafka地址
-        const val CONSUMER_TOPIC = "topicDemo" //消费者连接的topic
+//        const val MQ_ADDRESS_COLLECTION = "192.168.0.170:9092" //kafka地址
         // 自己机器
-//        const val MQ_ADDRESS_COLLECTION = "192.168.62.209:9092" //kafka地址
-//        const val CONSUMER_TOPIC = "my-topic" //消费者连接的topic
+        const val MQ_ADDRESS_COLLECTION = "192.168.1.10:9092" //kafka地址
+        const val CONSUMER_TOPIC = "my-topic" //消费者连接的topic
         const val PRODUCER_TOPIC = CONSUMER_TOPIC //生产者连接的topic
         const val CONSUMER_GROUP_ID = "1" //groupId，可以分开配置
         const val CONSUMER_ENABLE_AUTO_COMMIT = "true" //是否自动提交（消费者）
